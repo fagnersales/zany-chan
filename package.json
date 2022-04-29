@@ -1,0 +1,32 @@
+{
+  "name": "zany-chan",
+  "version": "1.0.0",
+  "description": "Zany Chan",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsnd --transpile-only --respawn src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fagnersales/zany-chan.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fagnersales/zany-chan/issues"
+  },
+  "homepage": "https://github.com/fagnersales/zany-chan#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.29",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/rest": "^0.4.1",
+    "discord-api-types": "^0.32.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
