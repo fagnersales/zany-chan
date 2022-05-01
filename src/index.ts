@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import './firebase'
 
 import { client } from './structures/Client'
 import { load } from './commands/load'
@@ -10,7 +11,7 @@ client.on('interactionCreate', (interaction) => {
 
   executers(interaction)
 })
- 
+
 client.login(process.env.TOKEN)
   .then(() => {
     load({
