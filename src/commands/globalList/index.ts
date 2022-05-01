@@ -1,12 +1,16 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10'
 import { CommandInteraction } from 'discord.js'
-import { IAnime } from '../../utils/types'
 
-import { addToGlobalList } from './add'
-import { removeFromGlobalList } from './remove'
+import {
+  addToGlobalList,
+  executer as addToGlobalListExecuter,
+} from './add'
 
-import { globalListRepository } from '../../repositories/GlobalListRepository'
+import {
+  removeFromGlobalList,
+  executer as removeFromGlobalListExecuter,
+} from './remove'
 
 export const commandBuilder = (): RESTPostAPIApplicationCommandsJSONBody => {
   return new SlashCommandBuilder()
@@ -21,36 +25,10 @@ export const commandBuilder = (): RESTPostAPIApplicationCommandsJSONBody => {
 export const commandExecuter = async (interaction: CommandInteraction) => {
   if (interaction.commandName !== 'global') return false;
 
-  const subcommand = interaction.options.getSubcommand()
+  const executers = [
+    addToGlobalListExecuter,
+    removeFromGlobalListExecuter,
+  ]
 
-  if (subcommand === 'add') {
-    const name = interaction.options.getString('name')!
-    const episodes = interaction.options.getNumber('episodes')!
-    const description = interaction.options.getString('description')!
-
-    const anime: IAnime = {
-      name,
-      episodes,
-      description,
-      rate: 0,
-      seasonsAmount: 1,
-      tags: [],
-      banners: []
-    }
-
-    await globalListRepository.save(anime)
-
-    interaction.reply(`O Anime **${name}** foi adicionado com sucesso!`)
-  }
-
-  if (subcommand === 'remove') {
-    const name = interaction.options.getString('name')!
-
-    try {
-      await globalListRepository.delete(name)
-      interaction.reply(`O Anime **${name}** foi removido com sucesso!`)
-    } catch {
-      interaction.reply(`O Anime **${name}** não foi encontrado!`)
-    }
-  }
+  executers.forEach(executer => executer(interaction))
 }
