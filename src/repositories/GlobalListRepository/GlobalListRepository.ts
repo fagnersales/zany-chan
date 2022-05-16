@@ -2,7 +2,9 @@ import {
   getFirestore,
   getDoc,
   setDoc,
-  doc
+  doc,
+  collection,
+  getDocs
 } from 'firebase/firestore'
 
 import { IAnime } from '../../utils/types'
@@ -44,6 +46,14 @@ class GlobalListRepository {
     }
 
     await setDoc(docRef, null)
+  }
+
+  public async list(): Promise<IAnime[]> {
+    const animeCollection = collection(this.db, 'animes')
+
+    const animeDocs = await getDocs(animeCollection)
+
+    return animeDocs.docs.map(animeDoc => animeDoc.data() as IAnime)    
   }
 }
 

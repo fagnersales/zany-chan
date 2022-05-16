@@ -12,12 +12,18 @@ import {
   executer as removeFromGlobalListExecuter,
 } from './remove'
 
+import {
+  listGlobalList,
+  executer as listGlobalListExecuter,
+} from './list'
+
 export const commandBuilder = (): RESTPostAPIApplicationCommandsJSONBody => {
   return new SlashCommandBuilder()
     .setName('global')
     .setDescription('Manages all available animes')
     .addSubcommand(addToGlobalList)
     .addSubcommand(removeFromGlobalList)
+    .addSubcommand(listGlobalList)
     .toJSON()
 }
 
@@ -28,6 +34,7 @@ export const commandExecuter = async (interaction: CommandInteraction) => {
   const executers = [
     addToGlobalListExecuter,
     removeFromGlobalListExecuter,
+    listGlobalListExecuter
   ]
 
   executers.forEach(executer => executer(interaction))
